@@ -101,7 +101,6 @@ bool ViewPortGL::windowShouldClose() {
 
 void ViewPortGL::swapBuffers() {
     win->swapBuffers();
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 
@@ -172,6 +171,21 @@ void ViewPortGL::sendTriangles() {
     triangleDataPointer = 0;
 }
 
+int ViewPortGL::getMaxNumberOfPreparedPixels() {
+    return PIXDATA_ARRAY_SIZE / 5;
+}
+
+
+int ViewPortGL::getMaxNumberOfPreparedLines() {
+    return LINEDATA_ARRAY_SIZE / 10;
+}
+
+int ViewPortGL::getMaxNumberOfPreparedTriangles() {
+    return TRIANGLEDATA_ARRAY_SIZE / 15;
+}
+
+
+
 void ViewPortGL::execDrawing2DPrimitives() {
     plain2DPixelShader->useMe();
     sendPixels();
@@ -237,13 +251,13 @@ void ViewPortGL::prepareTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
     prepareTriangle(x1, y1, x2, y2, x3, y3, red, green, blue, red, green, blue, red, green, blue);
 }
 
-void ViewPortGL::prepareBlock(int x, int y, int width, int height, int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3, int r4, int g4, int b4) {
-    prepareTriangle(x, y, x + width - 1, y + height - 1, x, y + height - 1, r1, g1, b1, r4, g4, b4, r3, g3, b3);
-    prepareTriangle(x + width - 1, y, x + width - 1, y + height - 1, x, y, r2, g2, b2, r4, g4, b4, r1, g1, b1);
+void ViewPortGL::prepareBlock(int x, int y, int blWidth, int blHeight, int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3, int r4, int g4, int b4) {
+    prepareTriangle(x, y, x + blWidth - 1, y + blHeight - 1, x, y + blHeight - 1, r1, g1, b1, r4, g4, b4, r3, g3, b3);
+    prepareTriangle(x + blWidth - 1, y, x + blWidth - 1, y + blHeight - 1, x, y, r2, g2, b2, r4, g4, b4, r1, g1, b1);
 }
 
-void ViewPortGL::prepareBlock(int x, int y, int width, int height, int r, int g, int b) {
-    prepareBlock(x, y, width, height, r, g, b, r, g, b, r, g, b, r, g, b);
+void ViewPortGL::prepareBlock(int x, int y, int blWidth, int blHeight, int r, int g, int b) {
+    prepareBlock(x, y, blWidth, blHeight, r, g, b, r, g, b, r, g, b, r, g, b);
 }
 
 

@@ -1,7 +1,6 @@
 #pragma once
-
-#include "WindowInterface.h"
-#include "ShaderInterface.h"
+#include "../include/WindowInterface.h"
+#include "../include/ShaderInterface.h"
 
 class ViewPortGL {
 
@@ -131,12 +130,16 @@ public:
     */
     void sendTriangles();
 
+    static int getMaxNumberOfPreparedPixels();
+    static int getMaxNumberOfPreparedLines();
+    static int getMaxNumberOfPreparedTriangles();
+
 
 
 
 private:
     const static int PIXDATA_ARRAY_SIZE = 5000000; // permits a maximum of 1 million points
-    const static int LINEDATA_ARRAY_SIZE = 700000; // permits a maximum of 100000 lines
+    const static int LINEDATA_ARRAY_SIZE = 1000000; // permits a maximum of 100000 lines
     const static int TRIANGLEDATA_ARRAY_SIZE = 1500000; // permits a maximum of 100000 triangles
 
 

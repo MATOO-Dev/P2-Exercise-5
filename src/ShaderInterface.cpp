@@ -48,27 +48,27 @@ void ShaderInterface::setPathToShaderDir(string path) {
 
 
 
-void ShaderInterface::registerVar(string name, UniformVariableType type) {
+void ShaderInterface::registerVar(string varName, UniformVariableType type) {
     if (programCompilationFinished)
-        throw runtime_error("Cannot register Variable " + name + ", because the compilation of the shader-program has already finished.");
-    if (uniformVars.find(name) != uniformVars.end()) {
-        UniformVariable* v = uniformVars[name];
+        throw runtime_error("Cannot register Variable " + varName + ", because the compilation of the shader-program has already finished.");
+    if (uniformVars.find(varName) != uniformVars.end()) {
+        UniformVariable* v = uniformVars[varName];
         delete v;
     }
-    uniformVars[name] = new UniformVariable(name, -1, type);
+    uniformVars[varName] = new UniformVariable(varName, -1, type);
 }
 
 
 
-void ShaderInterface::registerVar(string name, UniformVariableType type, int arraySize) {
+void ShaderInterface::registerVar(string varName, UniformVariableType type, int arraySize) {
     if (programCompilationFinished)
-        throw runtime_error("Cannot register Variable " + name + ", because the compilation of the shader-program has already finished.");
-    if (uniformVars.find(name) != uniformVars.end()) {
-        UniformVariable* v = uniformVars[name];
+        throw runtime_error("Cannot register Variable " + varName + ", because the compilation of the shader-program has already finished.");
+    if (uniformVars.find(varName) != uniformVars.end()) {
+        UniformVariable* v = uniformVars[varName];
         delete v;
     }
-    uniformVars[name] = new UniformVariable(name, -1, type);
-    arrayVarSizes[name] = arraySize;
+    uniformVars[varName] = new UniformVariable(varName, -1, type);
+    arrayVarSizes[varName] = arraySize;
 }
 
 
@@ -184,43 +184,43 @@ void execSetUniform(int id, int value) {
 
 
 
-int ShaderInterface::checkVarExistence(string name) {
-    auto v = uniformVars.find(name);
+int ShaderInterface::checkVarExistence(string varName) {
+    auto v = uniformVars.find(varName);
     if (v == uniformVars.end())
-        throw runtime_error("Unknown variable: " + name);
-    return uniformVars[name]->id;
+        throw runtime_error("Unknown variable: " + varName);
+    return uniformVars[varName]->id;
 }
 
 
 
-void ShaderInterface::setUniform(string name, int value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, int value) {
+    int id = checkVarExistence(varName);
     bufferedUniformIntValues[id] = value;
 }
 
 
 
-void ShaderInterface::setUniform(string name, int len, int* value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, int len, int* value) {
+    int id = checkVarExistence(varName);
     auto val = bufferedUniformIntArrayValues.find(id);
     if (val != bufferedUniformIntArrayValues.end()) {
         delete val->second;
     }
     bufferedUniformIntArrayValues[id] = value;
-    arrayVarSizes[name] = len;
+    arrayVarSizes[varName] = len;
 }
 
 
 
-void ShaderInterface::setUniform(string name, float value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, float value) {
+    int id = checkVarExistence(varName);
     bufferedUniformFloatValues[id] = value;
 }
 
 
 
-void ShaderInterface::setUniform(string name, int len, float* value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, int len, float* value) {
+    int id = checkVarExistence(varName);
     if (len == 3) {
         auto val = bufferedUniformVec3fValues.find(id);
         if (val != bufferedUniformVec3fValues.end()) {
@@ -239,14 +239,14 @@ void ShaderInterface::setUniform(string name, int len, float* value) {
             delete val->second;
         }
         bufferedUniformFloatArrayValues[id] = value;
-        arrayVarSizes[name] = len;
+        arrayVarSizes[varName] = len;
     }
 }
 
 
 
-void ShaderInterface::setUniform(string name, float v1, float v2, float v3) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, float v1, float v2, float v3) {
+    int id = checkVarExistence(varName);
     float* v = new float[3]{ v1, v2, v3 };
     auto val = bufferedUniformVec3fValues.find(id);
     if (val != bufferedUniformVec3fValues.end()) {
@@ -257,8 +257,8 @@ void ShaderInterface::setUniform(string name, float v1, float v2, float v3) {
 
 
 
-void ShaderInterface::setUniform(string name, float v1, float v2, float v3, float v4) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, float v1, float v2, float v3, float v4) {
+    int id = checkVarExistence(varName);
     float* v = new float[4]{ v1, v2, v3, v4 };
     auto val = bufferedUniformVec4fValues.find(id);
     if (val != bufferedUniformVec4fValues.end()) {
@@ -269,15 +269,15 @@ void ShaderInterface::setUniform(string name, float v1, float v2, float v3, floa
 
 
 
-void ShaderInterface::setUniform(string name, double value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, double value) {
+    int id = checkVarExistence(varName);
     bufferedUniformDoubleValues[id] = value;
 }
 
 
 
-void ShaderInterface::setUniform(string name, int len, double* value) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, int len, double* value) {
+    int id = checkVarExistence(varName);
     if (len == 3) {
         auto val = bufferedUniformVec3dValues.find(id);
         if (val != bufferedUniformVec3dValues.end()) {
@@ -296,14 +296,14 @@ void ShaderInterface::setUniform(string name, int len, double* value) {
             delete val->second;
         }
         bufferedUniformDoubleArrayValues[id] = value;
-        arrayVarSizes[name] = len;
+        arrayVarSizes[varName] = len;
     }
 }
 
 
 
-void ShaderInterface::setUniform(string name, double v1, double v2, double v3) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, double v1, double v2, double v3) {
+    int id = checkVarExistence(varName);
     double* v = new double[3]{ v1, v2, v3 };
     auto val = bufferedUniformVec3dValues.find(id);
     if (val != bufferedUniformVec3dValues.end()) {
@@ -314,8 +314,8 @@ void ShaderInterface::setUniform(string name, double v1, double v2, double v3) {
 
 
 
-void ShaderInterface::setUniform(string name, double v1, double v2, double v3, double v4) {
-    int id = checkVarExistence(name);
+void ShaderInterface::setUniform(string varName, double v1, double v2, double v3, double v4) {
+    int id = checkVarExistence(varName);
     double* v = new double[4]{ v1, v2, v3, v4 };
     auto val = bufferedUniformVec4dValues.find(id);
     if (val != bufferedUniformVec4dValues.end()) {
@@ -387,8 +387,8 @@ void ShaderInterface::sendUniformValues() {
 
 
 
-ShaderInterface::UniformVariable::UniformVariable(std::string name, GLint id, UniformVariableType type) {
-    this->name = name;
+ShaderInterface::UniformVariable::UniformVariable(std::string varName, GLint id, UniformVariableType type) {
+    this->name = varName;
     this->id = id;
     this->type = type;
 }
