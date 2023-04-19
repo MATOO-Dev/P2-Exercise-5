@@ -1,6 +1,6 @@
 #pragma once
-#include "../include/GridViewer.h"
-#include "../include/Color.h"
+#include "GridViewer.h"
+#include "Color.h"
 
 
 class PaletteGridViewer : public GridViewer {

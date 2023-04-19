@@ -1,6 +1,6 @@
 #pragma once
-#include "../include/ViewPortGL.h"
-#include "../include/Color.h"
+#include "ViewPortGL.h"
+#include "Color.h"
 
 class GridViewer : public ViewPortGL {
 public:

@@ -1,8 +1,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "../include/GridViewer.h"
-#include "../include/PaletteGridViewer.h"
+#include "include/GridViewer.h"
+#include "include/PaletteGridViewer.h"
 
 /*
 * Einkommentieren zum Testen des PaletteGridViewer
