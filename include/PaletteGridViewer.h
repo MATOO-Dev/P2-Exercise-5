@@ -7,6 +7,7 @@ class PaletteGridViewer : public GridViewer {
 
 public:
 	PaletteGridViewer(string title, int size, int cellSize, int paletteSizeP);	
+	~PaletteGridViewer();
 	void setColor(unsigned int value, Color c);
 	Color getColor(unsigned int value);
 

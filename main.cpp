@@ -1,11 +1,11 @@
 
 #include <iostream>
 #include <cmath>
+#include <thread>
 #include "include/GridViewer.h"
 #include "include/PaletteGridViewer.h"
 
-/*
-* Einkommentieren zum Testen des PaletteGridViewer
+//Einkommentieren zum Testen des PaletteGridViewer
 void paletteGridViewerTest() {
     try {
         int size = 1024;
@@ -38,7 +38,6 @@ void paletteGridViewerTest() {
         getchar();
     }
 }
-*/
 
 void circleTest(int gridSize, int cellSize, int radius) {
     try {
@@ -94,8 +93,8 @@ void diagonalTest() {
 int main() {
     try {
         //diagonalTest();
-        circleTest(1024, 16, 31);
-        //paletteGridViewerTest();
+        //circleTest(1024, 16, 31);
+        paletteGridViewerTest();
     } catch (...) {
         cout << "Unknown error" << endl;
         getchar();
