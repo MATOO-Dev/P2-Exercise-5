@@ -11,12 +11,13 @@ Color::Color()
 
 Color::Color(int r, int g, int b)
 {
-    if(r > 255)
-        throw std::logic_error("Error, value for red is " + std::to_string(r) + ", should be 255 maximum");
-    if(g > 255)
-        throw std::logic_error("Error, value for green is " + std::to_string(g) + ", should be 255 maximum");
-    if(b > 255)
-        throw std::logic_error("Error, value for blue is " + std::to_string(b) + ", should be 255 maximum");
+    //first, check that all values are within range
+    if(r < 0 || r > 255)
+        throw std::logic_error("Error, value for red is " + std::to_string(r) + ", should be 0-255");
+    if(g < 0 || g > 255)
+        throw std::logic_error("Error, value for green is " + std::to_string(g) + ", should be 0-255");
+    if(b < 0 || b > 255)
+        throw std::logic_error("Error, value for blue is " + std::to_string(b) + ", should be 0-255");
     
     red = r;
     green = g;
@@ -40,30 +41,33 @@ int Color::getBlue()
 
 void Color::setRed(int r)
 {
-    if(r > 255)
-        throw std::logic_error("Error, value for red is " + std::to_string(r) + ", should be 255 maximum");
+    if(r < 0 || r > 255)
+        throw std::logic_error("Error, value for red is " + std::to_string(r) + ", should be 0-255");
     red = r;
 }
 
 void Color::setGreen(int g)
 {
-    if(g > 255)
-        throw std::logic_error("Error, value for green is " + std::to_string(g) + ", should be 255 maximum");
+    if(g < 0 || g > 255)
+        throw std::logic_error("Error, value for green is " + std::to_string(g) + ", should be 0-255");
+    green = g;
 }
 
 void Color::setBlue(int b)
 {
-    if(b > 255)
-        throw std::logic_error("Error, value for blue is " + std::to_string(b) + ", should be 255 maximum");
+    if(b < 0 || b > 255)
+        throw std::logic_error("Error, value for blue is " + std::to_string(b) + ", should be 0-255");
+    blue = b;
 }
 
 Color Color::darken(int amount)
 {
     if(amount < 0 || amount > 255)
         throw std::logic_error("Error, amount to darken is " + std::to_string(amount) + ", should be 0-255");
-    int newRed = std::min(red - amount, 0);
-    int newGreen = std::min(green - amount, 0);
-    int newBlue = std::min(blue - amount, 0);
+    int newRed = (red - amount) < 0 ? 0 : (red - amount);
+    int newGreen = (green - amount) < 0 ? 0 : (green - amount);
+    int newBlue = (blue - amount) < 0 ? 0 : (blue - amount);
+
     return Color(newRed, newGreen, newBlue);
 }
 
@@ -71,8 +75,8 @@ Color Color::lighten(int amount)
 {
     if(amount < 0 || amount > 255)
         throw std::logic_error("Error, amount to lighten is " + std::to_string(amount) + ", should be 0-255");
-    int newRed = std::max(red + amount, 255);
-    int newGreen = std::max(green + amount, 255);
-    int newBlue = std::max(blue + amount, 255);
+    int newRed = (red + amount) > 255 ? 255 : (red + amount);
+    int newGreen = (green + amount) > 255 ? 255 : (green + amount);
+    int newBlue = (blue + amount) > 255 ? 255 : (blue + amount);
     return Color(newRed, newGreen, newBlue);
 }

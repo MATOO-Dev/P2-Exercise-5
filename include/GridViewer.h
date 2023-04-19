@@ -20,6 +20,7 @@ private:
 protected:
 	virtual Color colorFor(unsigned int value);
 	virtual void prepareCell(int x, int y);
-	virtual void prepareCellBorder(int x, int y);
+	virtual void prepareCellBorder(int x, int y, int thickness, int colorDelta);
+	void checkIsInGrid(int x, int y);
 };
 
