@@ -101,6 +101,7 @@ bool ViewPortGL::windowShouldClose() {
 
 void ViewPortGL::swapBuffers() {
     win->swapBuffers();
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 
