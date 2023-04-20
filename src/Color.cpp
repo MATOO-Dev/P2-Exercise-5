@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-Color Color::nullColor;
+Color Color::nullColor = Color(-1, -1, -1);
 
 Color::Color()
 {

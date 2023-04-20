@@ -19,7 +19,9 @@ GridViewer::GridViewer(string titleP, int size, int cellSizeP) : ViewPortGL(titl
 
 	int contentSize = pow(gridSize, 2);
 	content = new unsigned int[contentSize];
-	std::memset(content, 0, contentSize * sizeof(int));
+
+	for(int i = 0; i < contentSize; i++)
+		content[i] = 255;
 }
 
 GridViewer::~GridViewer()
@@ -29,6 +31,9 @@ GridViewer::~GridViewer()
 
 Color GridViewer::colorFor(unsigned int value) 
 {
+	if(value == 255)
+		return Color::nullColor;
+
 	int red = value >> 24 & 255;
 	int green = value >> 16 & 255;
 	int blue = value >> 8 & 255;
@@ -38,6 +43,9 @@ Color GridViewer::colorFor(unsigned int value)
 
 unsigned int GridViewer::valueFor(Color color)
 {
+	if(color.equals(Color::nullColor))
+		return 255;
+
 	int value = 0;
 	value = value | color.getRed() << 24;
 	value = value | color.getGreen() << 16;
