@@ -11,6 +11,7 @@ public:
 	void set(unsigned int x, unsigned int y, const Color& c);
 	void drawTo(ViewPortGL& vp);
 	void clear();
+	void buildColorPic(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, ColorBuf& cBuf);
 
 private:
 	Color** colorState;

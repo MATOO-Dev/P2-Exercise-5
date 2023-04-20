@@ -36,6 +36,15 @@ Color GridViewer::colorFor(unsigned int value)
 	return Color(red, green, blue);
 }
 
+unsigned int GridViewer::valueFor(Color color)
+{
+	int value = 0;
+	value = value & color.getRed() << 8;
+	value = value & color.getGreen() << 8;
+	value = value & color.getBlue() << 16;
+	return value;
+}
+
 void GridViewer::prepareCell(int x, int y) 
 {
 	int cellX = x * cellSize;
@@ -126,4 +135,53 @@ void GridViewer::checkIsInGrid(int x, int y)
 		throw std::logic_error("Value x = " + std::to_string(x) + " is out of grid bounds");
 	if(y < 0 || y >= gridSize)
 		throw std::logic_error("Value y = " + std::to_string(y) + " is out of grid bounds");
+}
+
+
+void GridViewer::buildColorPic(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
+{
+	int xDelta = abs((int)x2 - (int)x1);
+    int yDelta = abs((int)y2 - (int)y1);
+
+    if(xDelta <= 1 && yDelta <= 1)
+        return;
+
+    int randomChangeMaxAmount = 50;
+
+    Color topLeftColor = colorFor( getCell(x1, y1));
+    Color topRightColor = colorFor(getCell(x2, y1));
+    Color bottomLeftColor = colorFor(getCell(x1, y2));
+    Color bottomRightColor = colorFor(getCell(x2, y2));
+
+    int middleX = (x2 + x1) / 2;
+    int middleY = (y2 + y1) / 2;
+
+    //check for width/height here first
+    if(xDelta > 1)
+    {
+        //set top middle
+        if(colorFor(getCell(middleX, y1)).equals(Color::nullColor))
+            setCell(middleX, y1, valueFor(topLeftColor.averageWith(topRightColor).randomlyChange(randomChangeMaxAmount)));
+        //set bottom middle
+        if(colorFor(getCell(middleX, y2)).equals(Color::nullColor))
+            setCell(middleX, y2, valueFor(bottomLeftColor.averageWith(bottomRightColor).randomlyChange(randomChangeMaxAmount)));
+    }
+    if(yDelta > 1)
+    {
+        //set left middle
+        if(colorFor(getCell(x1, middleY)).equals(Color::nullColor))
+            setCell(x1, middleY, valueFor(topLeftColor.averageWith(bottomLeftColor).randomlyChange(randomChangeMaxAmount)));
+        //set right middle
+        if(colorFor(getCell(x2, middleY)).equals(Color::nullColor))
+            setCell(x2, middleY, valueFor(topRightColor.averageWith(bottomRightColor).randomlyChange(randomChangeMaxAmount)));
+    }
+    //set center
+    if(colorFor(getCell(middleX, middleY)).equals(Color::nullColor))
+            setCell(middleX, middleY, valueFor(topLeftColor.averageWith(topRightColor, bottomLeftColor, bottomRightColor).randomlyChange(randomChangeMaxAmount)));
+
+    //run recursively
+    buildColorPic(x1, y1, middleX, middleY);
+    buildColorPic(middleX, y1, x2, middleY);
+    buildColorPic(x1, middleY, middleX, y2);
+    buildColorPic(middleX, middleY, x2, y2);
 }

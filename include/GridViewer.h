@@ -10,6 +10,7 @@ public:
 	void setCell(int x, int y, unsigned int value);
 	void draw();
 	int getGridSize();
+	void buildColorPic(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
 
 private:
 	unsigned int* content;
@@ -19,6 +20,7 @@ private:
 
 protected:
 	virtual Color colorFor(unsigned int value);
+	virtual unsigned int valueFor(Color color);
 	virtual void prepareCell(int x, int y);
 	virtual void prepareCellBorder(int x, int y, int thickness, int colorDelta);
 	void checkIsInGrid(int x, int y);
