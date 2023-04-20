@@ -39,9 +39,9 @@ Color GridViewer::colorFor(unsigned int value)
 unsigned int GridViewer::valueFor(Color color)
 {
 	int value = 0;
-	value = value & color.getRed() << 8;
-	value = value & color.getGreen() << 8;
-	value = value & color.getBlue() << 16;
+	value = value | color.getRed() << 24;
+	value = value | color.getGreen() << 16;
+	value = value | color.getBlue() << 8;
 	return value;
 }
 
